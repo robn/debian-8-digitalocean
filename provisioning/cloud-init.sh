@@ -14,7 +14,7 @@ EOF
 apt-get update
 
 debconf-set-selections <<EOF
-cloud-init  cloud-init/datasources  multiselect  AltCloud, CloudStack, ConfigDrive, Ec2, MAAS, OVF, GCE, None
+cloud-init  cloud-init/datasources  multiselect  ConfigDrive, None
 EOF
 DEBIAN_FRONTEND=noninteractive apt-get -t jessie-backports -y install cloud-init cloud-initramfs-growroot
 
