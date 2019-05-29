@@ -50,5 +50,15 @@
 
       "shutdown_command": "echo 'packer' | sudo -S /sbin/shutdown -hP now"
     }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'packer' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "scripts": [
+        "provisioning/cloud-init.sh"
+      ]
+    }
   ]
 }
