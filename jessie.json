@@ -1,0 +1,50 @@
+{
+  "variables": {
+    "debian_version": "8.11.0"
+  },
+
+  "builders": [
+    {
+      "type": "parallels-iso",
+
+      "vm_name": "debian",
+      "cpus": 2,
+      "disk_size": 40000,
+      "memory": 4096,
+
+      "guest_os_type": "debian",
+      "iso_checksum_type": "sha512",
+      "iso_checksum_url": "http://cdimage.debian.org/cdimage/archive/{{user `debian_version`}}/amd64/iso-cd/SHA512SUMS",
+      "iso_url": "http://cdimage.debian.org/cdimage/archive/{{user `debian_version`}}/amd64/iso-cd/debian-{{user `debian_version`}}-amd64-netinst.iso",
+      "parallels_tools_mode": "disable",
+
+      "http_directory": "http",
+
+      "boot_command": [
+        "<esc><wait>",
+        "install <wait>",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/jessie.preseed.cfg <wait>",
+        "debian-installer=en_US <wait>",
+        "auto <wait>",
+        "locale=en_US <wait>",
+        "kbd-chooser/method=us <wait>",
+        "keyboard-configuration/xkb-keymap=us <wait>",
+        "netcfg/choose_interface=eth0 <wait>",
+        "netcfg/get_hostname=debian <wait>",
+        "netcfg/get_domain=internal <wait>",
+        "fb=false <wait>",
+        "debconf/frontend=noninteractive <wait>",
+        "console-setup/ask_detect=false <wait>",
+        "console-keymaps-at/keymap=us <wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+
+      "ssh_username": "packer",
+      "ssh_password": "packer",
+      "ssh_timeout": "60m",
+
+      "shutdown_command": "echo 'packer' | sudo -S /sbin/shutdown -hP now"
+    }
+  ]
+}
